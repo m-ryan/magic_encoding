@@ -2,6 +2,7 @@
 
 # A simple library to prepend magic comments for encoding to multiple ".rb" files
 
+require 'open3'
 module AddMagicComment
 
   # Options :
@@ -29,6 +30,7 @@ module AddMagicComment
 		extensions.each do |ext, comment_style|
 			rbfiles = File.join(directory ,'**', '*.'+ext)
 			Dir.glob(rbfiles).each do |filename|
+        next if syntax_ok?(filename)
 				file = File.new(filename, "r+")
 
 				lines = file.readlines
@@ -52,6 +54,11 @@ module AddMagicComment
 		end
 
     puts "Magic comments set for #{count} source files"
+  end
+
+  def self.syntax_ok?(filename)
+    stdin, stdout, stderr = Open3.popen3("ruby -c #{filename}")
+    stdout.read.include?("Syntax OK")
   end
 
 end
