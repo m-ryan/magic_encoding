@@ -2,6 +2,6 @@
 
 # A simple tool to prepend magic comments for encoding to multiple ".rb" files
 
-require 'magic_encoding'
+require File.join(File.dirname(__FILE__), *%w[.. lib magic_encoding])
 
 AddMagicComment.process(ARGV)
