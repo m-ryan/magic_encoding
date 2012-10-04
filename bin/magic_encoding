@@ -2,6 +2,8 @@
 
 # A simple tool to prepend magic comments for encoding to multiple ".rb" files
 
+$: << File.expand_path('../lib', File.dirname(__FILE__))
+
 require 'magic_encoding'
 
 AddMagicComment.process(ARGV)
