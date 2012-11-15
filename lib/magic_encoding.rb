@@ -1,5 +1,3 @@
-# -*- encoding : utf-8 -*-
-
 # A simple library to prepend magic comments for encoding to multiple ".rb" files
 
 module AddMagicComment
@@ -15,7 +13,7 @@ module AddMagicComment
     encoding  = options[0] || "utf-8"
     directory = options[1] || Dir.pwd
 
-    prefix = "-*- encoding : #{encoding} -*-\n"
+    prefix = "-*- encoding : #{encoding} -*-"
 
     # TODO : add options for recursivity (and application of the script to a single file)
 
@@ -23,6 +21,7 @@ module AddMagicComment
 			'rb' => '# {text}',
 			'rake' => '# {text}',
 			'haml' => '-# {text}',
+			'erb' => '<%# {text} %>',
 		}
 
 		count = 0
@@ -34,12 +33,12 @@ module AddMagicComment
 				lines = file.readlines
 
 				# remove current encoding comment(s)
-        while lines[0].match(/^-?# ?(-\*-)? ?(en)?coding/)
+        while lines[0].match(/^(<%|-)?# ?(-\*-)? ?(en)?coding/)
           lines.shift
         end
 
 				# set current encoding
-				lines.insert(0,comment_style.sub('{text}', prefix))
+				lines.insert(0, comment_style.sub('{text}', prefix) + "\n")
 				count += 1
 
 				file.pos = 0
