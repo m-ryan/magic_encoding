@@ -13,7 +13,7 @@ module AddMagicComment
     encoding  = options[0] || "utf-8"
     directory = options[1] || Dir.pwd
 
-    prefix = "-*- encoding : #{encoding} -*-"
+    magic_comment = "-*- encoding : #{encoding} -*-"
 
     # TODO : add options for recursivity (and application of the script to a single file)
 
@@ -38,7 +38,7 @@ module AddMagicComment
         end
 
 				# set current encoding
-				lines.insert(0, comment_style.sub('{text}', prefix) + "\n")
+				lines.insert(0, comment_style.sub('{text}', magic_comment) + "\n")
 				count += 1
 
 				file.pos = 0
